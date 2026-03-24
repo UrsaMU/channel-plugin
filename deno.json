@@ -1,0 +1,11 @@
+{
+  "name": "@ursamu/channel-plugin",
+  "version": "1.0.0",
+  "exports": "./index.ts",
+  "imports": {
+    "@ursamu/ursamu": "jsr:@ursamu/ursamu@^1.9.27"
+  },
+  "tasks": {
+    "test": "deno test --allow-all --unstable-kv --no-check"
+  }
+}
