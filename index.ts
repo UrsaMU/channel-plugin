@@ -37,8 +37,8 @@ const channelMiddleware = async (
 
 export const plugin: IPlugin = {
   name: "channel-plugin",
-  version: "1.0.0",
-  description: "Channel system for UrsaMU — chat channels with aliases, history, and admin tools.",
+  version: "2.3.0",
+  description: "Channel system for UrsaMU — chat channels with aliases, history, admin tools, and format hooks.",
 
   init: () => {
     gameHooks.on("player:login", onLogin);
