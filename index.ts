@@ -37,7 +37,7 @@ const channelMiddleware = async (
 
 export const plugin: IPlugin = {
   name: "channel-plugin",
-  version: "2.3.0",
+  version: "2.3.1",
   description: "Channel system for UrsaMU — chat channels with aliases, history, admin tools, and format hooks.",
 
   init: () => {
