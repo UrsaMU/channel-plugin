@@ -4,6 +4,8 @@
  * in the game project's system/scripts/ directory.
  */
 import { registerScript } from "@ursamu/ursamu";
+// Native @channel addCmd (format-hook aware) — supersedes scripts/channels.ts.
+import "./channelListCmd.ts";
 
 const SCRIPTS_URL = new URL("./scripts/", import.meta.url);
 
