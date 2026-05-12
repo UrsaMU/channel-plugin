@@ -9,32 +9,8 @@
  *   - CHANNELLISTFORMAT — full block override (%0 = default rendered block)
  *   - CHANNELROWFORMAT  — per-row override (%0 = default rendered row)
  */
-import {
-  addCmd,
-  dbojs,
-  resolveFormat,
-  type FormatSlot,
-} from "@ursamu/ursamu";
-import type { IDBObj, IUrsamuSDK } from "@ursamu/ursamu";
-
-/**
- * Two-tier format lookup: check `#0` (game-wide skin) first, then the
- * enactor (`u.me`) for a per-player skin. Returns null if neither yields
- * an override. Mirrors the WHO/PS pattern in ursamu core.
- */
-async function resolveGlobalFormat(
-  u: IUrsamuSDK,
-  slot: string,
-  defaultArg: string,
-): Promise<string | null> {
-  const root = await dbojs.queryOne({ id: "0" });
-  if (root) {
-    const rootObj = root as unknown as IDBObj;
-    const onRoot = await resolveFormat(u, rootObj, slot as FormatSlot, defaultArg);
-    if (onRoot != null) return onRoot;
-  }
-  return await resolveFormat(u, u.me, slot as FormatSlot, defaultArg);
-}
+import { addCmd, resolveGlobalFormat } from "@ursamu/ursamu";
+import type { FormatSlot, IUrsamuSDK } from "@ursamu/ursamu";
 
 interface IChanListEntry {
   name: string;
@@ -62,7 +38,7 @@ export async function channelList(u: IUrsamuSDK): Promise<void> {
   const rows: string[] = [];
   for (const ch of list) {
     const defaultRow = renderRow(ch);
-    const rowOverride = await resolveGlobalFormat(u, "CHANNELROWFORMAT", defaultRow);
+    const rowOverride = await resolveGlobalFormat(u, "CHANNELROWFORMAT" as FormatSlot, defaultRow);
     rows.push(rowOverride != null ? rowOverride : defaultRow);
   }
 
@@ -71,7 +47,7 @@ export async function channelList(u: IUrsamuSDK): Promise<void> {
   const lines: string[] = [header, ...rows, footer];
   const defaultBlock = lines.join("\n");
 
-  const blockOverride = await resolveGlobalFormat(u, "CHANNELLISTFORMAT", defaultBlock);
+  const blockOverride = await resolveGlobalFormat(u, "CHANNELLISTFORMAT" as FormatSlot, defaultBlock);
   if (blockOverride != null) {
     u.send(blockOverride);
     return;
